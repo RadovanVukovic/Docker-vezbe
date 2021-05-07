@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/RadovanVukovic/Docker/Container_API_GET_POST/POST_API'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh '''
+                    docker build --tag image_for_api:latest .
+                '''
+            }
+        }
+        
+        stage('Stop') {
+            steps {
+                sh '''
+                    docker container stop api
+                    docker container rm api
+                '''
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker run --name api1 image_for_api:latest
+                '''
+            }
+        }
+        
+    }
+}

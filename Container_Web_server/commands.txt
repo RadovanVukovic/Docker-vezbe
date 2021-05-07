@@ -1,0 +1,2 @@
+docker build --tag nginx-test:latest .
+docker run --name nginx-test1 -d -p 8080:80 nginx-test

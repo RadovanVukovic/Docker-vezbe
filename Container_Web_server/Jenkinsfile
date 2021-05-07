@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/RadovanVukovic/Docker/Container_Web_server'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh '''
+                   docker build --tag nginx-test:latest .
+                '''
+            }
+        }
+        
+        stage('Stop') {
+            steps {
+                sh '''
+                    docker container stop nginx-test1 
+                    docker container rm nginx-test1 
+                '''
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker run --name nginx-test1 -d -p 8080:80 nginx-test
+                '''
+            }
+        }
+        
+    }
+}

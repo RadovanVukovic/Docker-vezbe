@@ -1,0 +1,2 @@
+docker build --tag image_for_api:latest .
+docker run --name api1 image_for_api:latest
